@@ -25,8 +25,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY backend/ ./backend/
 # Copy the built frontend into the static dir FastAPI serves
-COPY --from=frontend /build/frontend/dist/ ./backend/static/
-
+COPY --from=frontend /build/backend/static/ ./backend/static/
 # Persistent data dir (mounted as a Railway volume)
 RUN mkdir -p /app/backend/data && chown -R app:app /app
 VOLUME /app/backend/data
