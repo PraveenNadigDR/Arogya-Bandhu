@@ -41,7 +41,7 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository_owner }}/arogya-bandhu:latest
-            ghcr.io/${{ github.repository_owner }}/arogya-bandhu:${{ github.sha }}
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/arogya-bandhu:cache
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/arogya-bandhu:cache,mode=max
+            ghcr.io/${{ toLower(github.repository_owner) }}/arogya-bandhu:latest
+            ghcr.io/${{ toLower(github.repository_owner) }}/arogya-bandhu:${{ github.sha }}
+          cache-from: type=registry,ref=ghcr.io/${{ toLower(github.repository_owner) }}/arogya-bandhu:cache
+          cache-to: type=registry,ref=ghcr.io/${{ toLower(github.repository_owner) }}/arogya-bandhu:cache,mode=max
