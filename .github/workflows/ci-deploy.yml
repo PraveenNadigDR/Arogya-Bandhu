@@ -20,6 +20,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Compute lowercase owner and image name
+        id: vars
+        run: |
+          # GITHUB_REPOSITORY is "owner/repo"
+          owner=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f1 | tr '[:upper:]' '[:lower:]')
+          image="ghcr.io/${owner}/arogya-bandhu"
+          echo "owner=$owner" >> "$GITHUB_OUTPUT"
+          echo "image=$image" >> "$GITHUB_OUTPUT"
+
       - name: Set up QEMU (for multi-arch)
         uses: docker/setup-qemu-action@v3
 
@@ -41,7 +50,7 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/arogya-bandhu:latest
-            ghcr.io/${{ toLower(github.repository_owner) }}/arogya-bandhu:${{ github.sha }}
-          cache-from: type=registry,ref=ghcr.io/${{ toLower(github.repository_owner) }}/arogya-bandhu:cache
-          cache-to: type=registry,ref=ghcr.io/${{ toLower(github.repository_owner) }}/arogya-bandhu:cache,mode=max
+            ${{ steps.vars.outputs.image }}:latest
+            ${{ steps.vars.outputs.image }}:${{ github.sha }}
+          cache-from: type=registry,ref=${{ steps.vars.outputs.image }}:cache
+          cache-to: type=registry,ref=${{ steps.vars.outputs.image }}:cache,mode=max
